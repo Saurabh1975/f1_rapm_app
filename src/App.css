@@ -1,38 +1,84 @@
+html {
+  font-size: 16px; /* Base font size */
+}
+
 .App {
-  text-align: center;
+  font-family: Roboto, sans-serif;
+  max-width: 75rem; /* 1200px */
+  margin: 0 auto;
+  padding: 1.25rem; /* 20px */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.25rem; /* 20px */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+th, td {
+  border: 0.0625rem solid #ddd; /* 1px */
+  padding: 0.5rem; /* 8px */
+  text-align: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+th {
+  background-color: #f2f2f2;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  cursor: pointer;
+}
+
+.custom-tooltip {
+  background-color: white;
+  border: 0.0625rem solid #ccc; /* 1px */
+  padding: 0.625rem; /* 10px */
+}
+
+.tooltip-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem; /* 16px */
+  font-weight: bold;
+  margin-bottom: 0.625rem; /* 10px */
+}
+
+.tooltip-content {
+  font-family: 'Roboto Slab', serif;
+  font-size: 0.875rem; /* 14px */
+}
+
+.app-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem; /* 20px */
+  color: #333;
+  margin-bottom: 0.625rem; /* 10px */
+}
+
+.subtitle {
+  font-family: 'Roboto Slab', sans-serif;
+  font-size: 1rem; /* 16px */
+  margin-top: -0.3125rem; /* -10px */
+  margin-bottom: 0.625rem; /* 10px */
+}
+
+.attribution {
+  font-family: 'Roboto Slab', sans-serif;
+  font-size: 0.875rem; /* 14px */
+  margin-top: -0.3125rem; /* -10px */
+  margin-bottom: 1.25rem; /* 20px */
+}
+
+.attribution a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.attribution a:hover {
+  text-decoration: underline;
 }
