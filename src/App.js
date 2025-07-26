@@ -23,7 +23,7 @@ function App() {
 
 
   useEffect(() => {
-    Papa.parse('/rapm_history_combined_cleaned.csv', {
+    Papa.parse('https://raw.githubusercontent.com/Saurabh1975/f1_pred_car_ratings_sdr/refs/heads/master/app_data/rapm_history_combined_cleaned.csv', {
       download: true,
       header: true,
       complete: (results) => {

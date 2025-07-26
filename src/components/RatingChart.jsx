@@ -307,7 +307,7 @@
                   strokeWidth="0.25"
                   opacity={0.9}
                 />
-                {width / (xScale(roundExtent[1]) - xScale(roundExtent[0])) >= 0.2 && (
+                {width / (xScale(roundExtent[1]) - xScale(roundExtent[0])) >= 0.15 && (
                   <text
                     x={xStart + width / 2}
                     y={yOffset + barHeight / 2 + 3}
