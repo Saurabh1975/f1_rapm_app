@@ -1,17 +1,20 @@
-import React from 'react';
-import Select from 'react-select';
+  import React from 'react';
+  import Select from 'react-select';
 
-function SearchTool({ options, onSelect }) {
-  return (
-    <div style={{ width: '100%' }}>
+  const SearchTool = ({ options, onSelect, value }) => {
+
+    console.log("Driver/Constructor Options:")
+    console.log(options)
+
+    return (
       <Select
-        options={options}
         isMulti
+        options={options} // Pass grouped options
         onChange={onSelect}
-        placeholder="Search for drivers or constructors..."
+        value={value}
+        placeholder="Select entities..."
       />
-    </div>
-  );
-}
+    );
+  };
 
-export default SearchTool;
+  export default SearchTool;

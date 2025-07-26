@@ -1,58 +1,44 @@
 import React from 'react';
-import { useTable, useSortBy } from 'react-table';
+import { DataGrid } from '@mui/x-data-grid';
+import { Box, Typography } from '@mui/material';
 
-function Table({ columns, data, onAddToChart }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    useSortBy
-  );
-
+function Table({ columns, data, title, defaultSortField, customHeader }) {
   return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            <th>Add/Remove</th>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-                <span>
-                  {column.isSorted
-                    ? column.isSortedDesc
-                      ? ' 🔽'
-                      : ' 🔼'
-                    : ''}
-                </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              <td>
-                <button onClick={() => onAddToChart(row.original)}>+/-</button>
-              </td>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <Box mx={3} mt={4}>
+    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+      <Typography variant="h6" align="left" gutterBottom>
+        {title}
+      </Typography>
+      {customHeader}
+    </Box>
+      <DataGrid
+        rows={data}
+        columns={columns}
+        autoHeight
+        disableSelectionOnClick
+        pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: defaultSortField, sort: 'desc' }],
+          },
+        }}
+        getRowClassName={(params) => `row-${params.row.id}`}
+        componentsProps={{
+          row: {
+            style: (params) => ({
+              '--hover-color': params.row.current_primary_color || '#e0e0e0',
+            }),
+          },
+        }}
+        sx={{
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: 'var(--hover-color)',
+          },
+        }}
+        style={{ backgroundColor: '#fff', borderRadius: '4px', marginTop: '16px' }}
+      />
+    </Box>
   );
 }
 

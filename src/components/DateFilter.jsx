@@ -1,46 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function DateFilter({ onDateChange, dates }) {
-  const [selectedYear, setSelectedYear] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
+function DateFilter({ raceGroups, selectedRace, setSelectedRace }) {
 
+  console.log("Race list:")
+  console.log(raceGroups)
+  
   useEffect(() => {
-    if (dates.length > 0) {
-      const latestDate = new Date(Math.max(...dates));
-      setSelectedYear(latestDate.getFullYear());
-      setSelectedDate(latestDate);
-      onDateChange(latestDate);
+    if (raceGroups.length > 0 && !selectedRace) {
+      setSelectedRace(raceGroups[0]?.options[0]?.value || null);
     }
-  }, [dates, onDateChange]);
-
-  const years = [...new Set(dates.map(date => date.getFullYear()))].sort((a, b) => b - a);
-
-  const handleYearChange = (event) => {
-    setSelectedYear(parseInt(event.target.value));
-    setSelectedDate(null);
-  };
-
-  const handleDateChange = (event) => {
-    const newDate = new Date(event.target.value);
-    setSelectedDate(newDate);
-    onDateChange(newDate);
-  };
-
-  const datesForYear = dates.filter(date => date.getFullYear() === selectedYear)
-    .sort((a, b) => b - a);
+  }, [raceGroups, selectedRace, setSelectedRace]);
 
   return (
     <div>
-      <select value={selectedYear} onChange={handleYearChange}>
-        {years.map(year => (
-          <option key={year} value={year}>{year}</option>
-        ))}
-      </select>
-      <select value={selectedDate?.toISOString().split('T')[0]} onChange={handleDateChange}>
-        {datesForYear.map(date => (
-          <option key={date.toISOString()} value={date.toISOString().split('T')[0]}>
-            {date.toLocaleDateString()}
-          </option>
+      <select
+        value={selectedRace || ''}
+        onChange={(e) => setSelectedRace(e.target.value)}
+      >
+        {raceGroups.map((group) => (
+          <optgroup key={group.label} label={group.label}>
+            {group.options.map((race) => (
+              <option key={race.value} value={race.value}>
+                {race.label}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>

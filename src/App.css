@@ -1,20 +1,31 @@
-html {
-  font-size: 16px; /* Base font size */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap');
+
+/* Overall App Styles */
+html, body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
 .App {
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   max-width: 75rem; /* 1200px */
   margin: 0 auto;
   padding: 1.25rem; /* 20px */
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1.25rem; /* 20px */
+.MuiDataGrid-columnHeaderTitle {
+  font-family: 'Roboto', sans-serif; /* Apply Roboto to column headers */
+  font-size: 0.875rem; /* 14px */
+  font-weight: 800; /* Make column headers bold */
 }
 
+/* Table Styles */
+table, .MuiDataGrid-cell {
+  font-family: 'Roboto Slab', serif; /* Apply Roboto Slab only to tables */
+  font-size: 0.875rem; /* 14px */
+}
+
+/* Common Styles */
 th, td {
   border: 0.0625rem solid #ddd; /* 1px */
   padding: 0.5rem; /* 8px */
@@ -34,51 +45,60 @@ button {
   cursor: pointer;
 }
 
-.custom-tooltip {
-  background-color: white;
-  border: 0.0625rem solid #ccc; /* 1px */
-  padding: 0.625rem; /* 10px */
-}
-
-.tooltip-title {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem; /* 16px */
-  font-weight: bold;
-  margin-bottom: 0.625rem; /* 10px */
-}
-
-.tooltip-content {
-  font-family: 'Roboto Slab', serif;
-  font-size: 0.875rem; /* 14px */
-}
-
 .app-title {
   font-family: 'Roboto', sans-serif;
   font-weight: 800;
-  font-size: 1.5rem; /* 20px */
+  font-size: 2rem; /* Slightly larger than 1.5rem */
   color: #333;
-  margin-bottom: 0.625rem; /* 10px */
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  font-family: 'Roboto Slab', sans-serif;
-  font-size: 1rem; /* 16px */
-  margin-top: -0.3125rem; /* -10px */
-  margin-bottom: 0.625rem; /* 10px */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400; /* Normal weight */
+  font-size: 1.125rem; /* Slightly larger if desired */
+  margin-top: -0.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .attribution {
-  font-family: 'Roboto Slab', sans-serif;
-  font-size: 0.875rem; /* 14px */
-  margin-top: -0.3125rem; /* -10px */
-  margin-bottom: 1.25rem; /* 20px */
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  color: #555;
 }
 
 .attribution a {
-  color: #0066cc;
+  color: #0077cc;
   text-decoration: none;
+  margin-left: 0.25rem;
 }
 
 .attribution a:hover {
   text-decoration: underline;
 }
+
+
+/* Default hover color */
+.MuiDataGrid-row:hover {
+  background-color: var(--hover-color, #e0e0e0) !important;
+}
+
+button {
+  background-color: #FF1E00;
+  color: #fff;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Dynamic hover colors */
+.hover-row-ff0000:hover { --hover-color: #ff0000; } /* Red */
+.hover-row-00ff00:hover { --hover-color: #00ff00; } /* Green */
+.hover-row-0000ff:hover { --hover-color: #0000ff; } /* Blue */
+.hover-row-ffffff:hover { --hover-color: #ffffff; } /* White */
