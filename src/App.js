@@ -344,7 +344,7 @@ function App() {
   2014 through the {latestSeason && latestRaceName ? `${latestSeason} ${latestRaceName}` : 'Present'}
 </h2>
 <p className="attribution">
-  Rating System + App by Saurabh Rane (
+  Rating System & App by Saurabh Rane (
   <a href="https://x.com/SaurabhOnTap" target="_blank" rel="noopener noreferrer">Twitter</a> |
   <a href="https://saurabhr.com/" target="_blank" rel="noopener noreferrer">Website</a>). This model seeks to apply a regulaized adjusted
   plus-minus framework and apply to Formula 1 in an effort to decompose driver and constructor impact. While the model has predictive 
