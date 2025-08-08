@@ -107,7 +107,7 @@ function App() {
     if (!isLoading && selectedEntities.length === 0) {
       const allEntities = Object.keys(data);
       if (allEntities.length > 1) {
-        const randomEntities = allEntities.sort(() => 0.5 - Math.random()).slice(0, 2);
+        const randomEntities = allEntities.sort(() => 0.5 - Math.random()).slice(0, 1);
         setSelectedEntities(randomEntities);
       }
     }
@@ -347,7 +347,7 @@ function App() {
   <a href="https://saurabhr.com/" target="_blank" rel="noopener noreferrer">Website</a>). This model seeks to apply a regulaized adjusted
   plus-minus framework and apply to Formula 1 in an effort to decompose driver and constructor impact. While the model has predictive 
   applications, the predictions are notably lacking the interaction factor between driver & car in an effort to isolate constructor and 
-  driver impact. Full methodology to be published later this year. 
+  driver impact. <a href="https://arxiv.org/abs/2508.00200 " target="_blank" rel="noopener noreferrer">Methodology & manuscript avaiable on arXiv</a>
 </p>
 <div style={{
   display: 'flex',
