@@ -8,6 +8,7 @@ import RaceSelector from './components/RaceSelector.jsx';
 import { Box, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import './App.css';
 import { useMemo } from 'react';
+import useIsMobile from './hooks/useIsMobile'; // adjust path if needed
 
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
   const [latestSeason, setLatestSeason] = useState(null);
   const [latestRaceName, setLatestRaceName] = useState(null);
   const [latestRound, setLatestRound] = useState(null);
+  const isMobile = useIsMobile();
+
 
 
   useEffect(() => {
@@ -69,9 +72,11 @@ function App() {
           if (!acc[season]) {
             acc[season] = [];
           }
-          if (!acc[season].includes(raceFullName)) {
-            acc[season].push(raceFullName);
+          const overallRound = parseInt(row.overall_round, 10);
+          if (!acc[season].some(r => r.name === raceFullName)) {
+            acc[season].push({ name: raceFullName, round: overallRound });
           }
+          
 
           return acc;
         }, {});
@@ -82,16 +87,13 @@ function App() {
         .map(([season, races]) => ({
           label: `${season} Season`,
           // Sort races numerically in descending order within each season
-          options: races
-            .sort((raceA, raceB) => {
-              const numA = parseInt(raceA.match(/\\d+/)?.[0] || 0, 10);
-              const numB = parseInt(raceB.match(/\\d+/)?.[0] || 0, 10);
-              return numB - numA; // Descending order
-            })
-            .map((race) => ({
-              value: race,
-              label: race,
-            })),
+          options: races 
+          .sort((a, b) => b.round - a.round)
+          .map(race => ({
+            value: race.name,
+            label: race.name
+          }))
+        ,
         }));
       
       // Set the default race to the latest race in the first (most recent) season
@@ -235,100 +237,96 @@ function App() {
     };
   });
 
-  const columns =
-  entityType === 'drivers'
-    ? [
-        {
-          field: 'display_name',
-          headerName: 'Driver Name',
-          flex: 1,
-          renderCell: (params) => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={params.row.driverImage}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/Images/Drivers/png/placeholder.png'; }}
-                alt="Driver"
-                style={{ width: 30, height: 30, marginRight: 10 }}
-              />
-              {params.value}
-            </div>
-          ),
-        },
-        {
-          field: 'parent_constructor_name',
-          headerName: 'Constructor',
-          flex: 1,
-          renderCell: (params) => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={params.row.constructorImage}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/Images/Constructor/png/placeholder.png'; }}
-                alt="Constructor"
-                style={{ width: 101, height: 30, marginRight: 10 }}
-              />
-              {params.value}
-            </div>
-          ),
-        },
+  const columns = (() => {
+    const driverNameColumn = {
+      field: 'display_name',
+      headerName: 'Driver Name',
+      flex: 1,
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {!isMobile && (
+            <img
+              src={params.row.driverImage}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/Images/Drivers/png/placeholder.png';
+              }}
+              alt="Driver"
+              style={{ width: 30, height: 30, marginRight: 10 }}
+            />
+          )}
+          {params.value}
+        </div>
+      ),
+    };
+  
+    const constructorColumn = {
+      field: 'parent_constructor_name',
+      headerName: 'Constructor',
+      flex: 1,
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {!isMobile && (
+            <img
+              src={params.row.constructorImage}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/Images/Constructor/png/placeholder.png';
+              }}
+              alt="Constructor"
+              style={{ width: 101, height: 30, marginRight: 10 }}
+            />
+          )}
+          {params.value}
+        </div>
+      ),
+    };
+  
+    if (entityType === 'drivers') {
+      return [
+        driverNameColumn,
+        constructorColumn,
         { field: 'rapm_blended', headerName: 'Driver Rating', flex: 1, sortable: true },
-      ]
-    : entityType === 'constructors'
-    ? [
+      ];
+    }
+  
+    if (entityType === 'constructors') {
+      return [
         {
           field: 'display_name',
           headerName: 'Constructor',
           flex: 1,
           renderCell: (params) => (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={params.row.constructorImage}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/Images/Constructor/png/placeholder.png'; }}
-                alt="Constructor"
-                style={{ width: 101, height: 30, marginRight: 10 }}
-              />
+              {!isMobile && (
+                <img
+                  src={params.row.constructorImage}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/Images/Constructor/png/placeholder.png';
+                  }}
+                  alt="Constructor"
+                  style={{ width: 101, height: 30, marginRight: 10 }}
+                />
+              )}
               {params.value}
             </div>
           ),
         },
         { field: 'rapm_blended', headerName: 'Constructor Rating', flex: 1, sortable: true },
-      ]
-    : [
-        {
-          field: 'display_name',
-          headerName: 'Driver Name',
-          flex: 1,
-          renderCell: (params) => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={params.row.driverImage}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/Images/Drivers/png/placeholder.png'; }}
-                alt="Driver"
-                style={{ width: 30, height: 30, marginRight: 10 }}
-              />
-              {params.value}
-            </div>
-          ),
-        },
-        {
-          field: 'parent_constructor_name',
-          headerName: 'Constructor',
-          flex: 1,
-          renderCell: (params) => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src={params.row.constructorImage}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/Images/Constructor/png/placeholder.png'; }}
-                alt="Constructor"
-                style={{ width: 101, height: 30, marginRight: 10 }}
-              />
-              {params.value}
-            </div>
-          ),
-        },
-        { field: 'rapm_driver', headerName: 'Driver Rating', flex: 1, sortable: true },
-        { field: 'rapm_constructor', headerName: 'Constructor Rating', flex: 1, sortable: true },
-        { field: 'rapm_combined', headerName: 'Combined Rating', flex: 1, sortable: true },
       ];
+    }
+  
+    // Combined view
+    return [
+      driverNameColumn,
+      constructorColumn,
+      { field: 'rapm_driver', headerName: 'Driver Rating', flex: 1, sortable: true },
+      { field: 'rapm_constructor', headerName: 'Constructor Rating', flex: 1, sortable: true },
+      { field: 'rapm_combined', headerName: 'Combined Rating', flex: 1, sortable: true },
+    ];
+  })();
+  
 
 
 
@@ -389,6 +387,7 @@ function App() {
   columns={columns}
   data={tableData}
   title={`${entityType.charAt(0).toUpperCase() + entityType.slice(1)} Ratings Table`}
+  entityType={entityType}
   defaultSortField={defaultSortField}
   customHeader={
     <button
